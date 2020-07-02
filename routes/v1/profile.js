@@ -10,7 +10,14 @@ const router = express.Router({
 const {
     getMyProfile,
     createOrUpdateProfile,
-    getAllProfiles
+    getAllProfiles,
+    profileByUserID,
+    deleteProfilePostsUser,
+    createProfileExperience,
+    deleteProfileExperience,
+    createProfileEducation,
+    deleteProfileEducation,
+    getGitHubRepo
 } = require('../../contoller/v1/profile');
 
 // Protect Route Middleware
@@ -20,7 +27,13 @@ const {
 
 // Routes handling
 router.route('/me').get(protect, getMyProfile);
-router.route('/').post(protect, createOrUpdateProfile).get(getAllProfiles);
+router.route('/').post(protect, createOrUpdateProfile).get(getAllProfiles).delete(protect, deleteProfilePostsUser);
+router.route('/user/:userid').get(profileByUserID);
+router.route('/experience').put(protect, createProfileExperience);
+router.route('/experience/:expid').delete(protect, deleteProfileExperience);
+router.route('/education').put(protect, createProfileEducation);
+router.route('/education/:eduid').delete(protect, deleteProfileEducation);
+router.route('/github/:username').get(getGitHubRepo);
 
 // Export 
 module.exports = router;
