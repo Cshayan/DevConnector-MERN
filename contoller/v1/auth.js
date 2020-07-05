@@ -8,7 +8,7 @@ const ErrorResponse = require('../../utils/ErrorResponse');
 const asyncHandler = require('../../middleware/async');
 
 /*
- *  Endpoint - api/v1/users/auth/me
+ *  Endpoint - api/v1/users/auth
  *  Method - GET
  *  Desc - Gives the info of the currently logged in user
  *  Access - Private

@@ -18,3 +18,11 @@ export {
     default as Alert
 }
 from './layouts/Alert';
+export {
+    default as Dashboard
+}
+from './dashboard/Dashboard';
+export {
+    default as PrivateRoute
+}
+from './routing/PrivateRoute';

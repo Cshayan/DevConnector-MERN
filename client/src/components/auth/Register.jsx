@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { setAlert } from "../../actions/alert";
+import { registerUser } from "../../actions/auth";
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, registerUser, isAuthenticated }) => {
   // useState
   const [formData, setFormData] = useState({
     name: "",
@@ -26,9 +28,14 @@ const Register = ({ setAlert }) => {
     if (password !== confirmPassword) {
       setAlert("danger", "Two passwords do not match");
     } else {
-      console.log(formData);
+      registerUser({ name, email, password });
     }
   };
+
+  // redirect to dashboard anytime if the user is authenticated
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <React.Fragment>
@@ -44,7 +51,6 @@ const Register = ({ setAlert }) => {
             name="name"
             value={name}
             onChange={(e) => onChangeHandler(e)}
-            required
           />
         </div>
         <div className="form-group">
@@ -65,7 +71,6 @@ const Register = ({ setAlert }) => {
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
             value={password}
             onChange={(e) => onChangeHandler(e)}
           />
@@ -75,7 +80,6 @@ const Register = ({ setAlert }) => {
             type="password"
             placeholder="Confirm Password"
             name="confirmPassword"
-            minLength="6"
             value={confirmPassword}
             onChange={(e) => onChangeHandler(e)}
           />
@@ -92,6 +96,12 @@ const Register = ({ setAlert }) => {
 // Proptypes
 Register.prototype = {
   setAlert: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert })(Register);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, registerUser })(Register);
